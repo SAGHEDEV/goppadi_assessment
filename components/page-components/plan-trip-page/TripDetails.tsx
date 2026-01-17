@@ -34,7 +34,7 @@ function TripDetails({ onAddFlight, onAddActivity, onAddHotel }: { onAddFlight?:
                 <Image src={"/assets/banner.svg"} alt="Banner" className="w-full h-full object-cover rounded-lg" width={1412} height={200} />
             </div>
 
-            <div className='flex justify-between'>
+            <div className='flex flex-col md:flex-row justify-between gap-4'>
                 <div className="flex flex-col items-start gap-1">
                     <div className="w-fit py-1 px-2 rounded-lg flex items-center gap-2 text-[#7A4504] bg-[#FEF4E6] mb-2">
                         <HugeiconsIcon
@@ -46,7 +46,7 @@ function TripDetails({ onAddFlight, onAddActivity, onAddHotel }: { onAddFlight?:
                     </div>
 
                     <div className='flex flex-col gap-1'>
-                        <h1 className="text-3xl font-bold text-[#101828]">Bahamas Family Trip</h1>
+                        <h1 className="text-2xl md:text-3xl font-bold text-[#101828]">Bahamas Family Trip</h1>
 
                         <div className="flex items-center gap-2 text-[#667085]">
                             <HugeiconsIcon
@@ -58,7 +58,7 @@ function TripDetails({ onAddFlight, onAddActivity, onAddHotel }: { onAddFlight?:
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col items-center justify-between">
+                <div className="flex flex-row md:flex-col items-center justify-between gap-4">
                     <div className='flex items-center gap-2'>
                         <Button
                             variant="outline"
@@ -85,7 +85,7 @@ function TripDetails({ onAddFlight, onAddActivity, onAddHotel }: { onAddFlight?:
 
                     <div className='flex items-center'>
                         <Avatar className="h-10 w-10 border-2 border-white shadow-sm">
-                            <AvatarImage src="/assets/second-profile.jpg" alt="User" className='object-cover' />
+                            <AvatarImage src="/assets/second-profile.png" alt="User" className='object-cover' />
                             <AvatarFallback className="bg-[#0D6EFD] text-white text-sm">JD</AvatarFallback>
                         </Avatar>
 
@@ -104,7 +104,7 @@ function TripDetails({ onAddFlight, onAddActivity, onAddHotel }: { onAddFlight?:
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 <Card className="p-3.5 bg-[#000031] text-white rounded-lg border-0 hover:shadow-xs transition-shadow flex flex-col gap-8 justify-between">
                     <div className='flex flex-col gap-2'>
                         <h3 className="font-semibold ">Activities</h3>

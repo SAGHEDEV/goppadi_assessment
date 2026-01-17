@@ -16,6 +16,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import axiosInstance from '@/lib/axios';
 import { useFlightStore } from '@/lib/store/useFlightStore';
+import { useToast } from '@/hooks/use-toast';
+import EmptyState from '../EmptyState';
 
 interface BookingDrawerProps {
     isOpen: boolean;
@@ -23,6 +25,7 @@ interface BookingDrawerProps {
 }
 
 export default function BookingDrawer({ isOpen, onClose }: BookingDrawerProps) {
+    const { toast } = useToast();
     const addFlight = useFlightStore((state) => state.addFlight);
     const [isLoading, setIsLoading] = useState(false);
     const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -66,11 +69,15 @@ export default function BookingDrawer({ isOpen, onClose }: BookingDrawerProps) {
                 }
             });
 
-            setSearchResults(response.data.data.itineraries || []);
+            setSearchResults(response?.data?.data?.itineraries || []);
             setStep('results');
         } catch (error) {
             console.error('Error searching flights:', error);
-            alert('Failed to search flights. Please check your API key and parameters.');
+            toast({
+                title: "Error",
+                description: "Failed to search flights. Please check your API key and parameters.",
+                variant: "destructive"
+            });
         } finally {
             setIsLoading(false);
         }
@@ -289,39 +296,49 @@ export default function BookingDrawer({ isOpen, onClose }: BookingDrawerProps) {
                                 <HugeiconsIcon icon={ArrowRight02Icon} size={16} className="rotate-180" />
                                 Back to search
                             </button>
-                            {searchResults.map((itinerary: any) => (
-                                <div
-                                    key={itinerary.id}
-                                    className="p-4 border border-[#E4E7EC] rounded-xl hover:border-[#0D6EFD] transition-colors cursor-pointer group"
-                                    onClick={() => handleSelectFlight(itinerary)}
-                                >
-                                    <div className="flex justify-between items-start mb-3">
-                                        <div className="flex items-center gap-2">
-                                            <div className="w-8 h-8 bg-gray-100 rounded flex items-center justify-center font-bold text-red-600 text-xs text-nowrap">
-                                                {itinerary.flightOptions[0].flights[0].airlineName.substring(0, 2).toUpperCase()}
+                            {searchResults.length === 0 ? (
+                                <EmptyState
+                                    icon='/assets/empty-flight.svg'
+                                    message="No flight was found"
+                                    buttonText="Search again"
+                                    onButtonClick={() => setStep('form')}
+                                    iconSize={120}
+                                />
+                            ) : (
+                                searchResults.map((itinerary: any) => (
+                                    <div
+                                        key={itinerary.id}
+                                        className="p-4 border border-[#E4E7EC] rounded-xl hover:border-[#0D6EFD] transition-colors cursor-pointer group"
+                                        onClick={() => handleSelectFlight(itinerary)}
+                                    >
+                                        <div className="flex justify-between items-start mb-3">
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-8 h-8 bg-gray-100 rounded flex items-center justify-center font-bold text-red-600 text-xs text-nowrap">
+                                                    {itinerary.flightOptions[0].flights[0].airlineName.substring(0, 2).toUpperCase()}
+                                                </div>
+                                                <span className="font-semibold text-[#1D2433]">{itinerary.flightOptions[0].flights[0].airlineName}</span>
                                             </div>
-                                            <span className="font-semibold text-[#1D2433]">{itinerary.flightOptions[0].flights[0].airlineName}</span>
+                                            <span className="font-bold text-[#0D6EFD]">₦ {itinerary.price.total.toLocaleString()}</span>
                                         </div>
-                                        <span className="font-bold text-[#0D6EFD]">₦ {itinerary.price.total.toLocaleString()}</span>
-                                    </div>
-                                    <div className="flex justify-between items-center text-sm">
-                                        <div>
-                                            <p className="font-semibold text-[#1D2433]">{new Date(itinerary.flightOptions[0].flights[0].departureTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-                                            <p className="text-[#647995]">{itinerary.flightOptions[0].flights[0].departureAirport}</p>
-                                        </div>
-                                        <div className="flex flex-col items-center flex-1 mx-4">
-                                            <p className="text-[10px] text-[#647995] mb-1">{itinerary.duration}</p>
-                                            <div className="w-full h-px bg-[#E4E7EC] relative">
-                                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-[#0D6EFD] rounded-full" />
+                                        <div className="flex justify-between items-center text-sm">
+                                            <div>
+                                                <p className="font-semibold text-[#1D2433]">{new Date(itinerary.flightOptions[0].flights[0].departureTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                                                <p className="text-[#647995]">{itinerary.flightOptions[0].flights[0].departureAirport}</p>
+                                            </div>
+                                            <div className="flex flex-col items-center flex-1 mx-4">
+                                                <p className="text-[10px] text-[#647995] mb-1">{itinerary.duration}</p>
+                                                <div className="w-full h-px bg-[#E4E7EC] relative">
+                                                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-[#0D6EFD] rounded-full" />
+                                                </div>
+                                            </div>
+                                            <div className="text-right">
+                                                <p className="font-semibold text-[#1D2433]">{new Date(itinerary.flightOptions[0].flights[0].arrivalTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                                                <p className="text-[#647995]">{itinerary.flightOptions[0].flights[0].arrivalAirport}</p>
                                             </div>
                                         </div>
-                                        <div className="text-right">
-                                            <p className="font-semibold text-[#1D2433]">{new Date(itinerary.flightOptions[0].flights[0].arrivalTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-                                            <p className="text-[#647995]">{itinerary.flightOptions[0].flights[0].arrivalAirport}</p>
-                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))
+                            )}
                         </div>
                     )}
                 </div>

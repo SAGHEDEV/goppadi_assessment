@@ -59,17 +59,17 @@ export default function FlightCard({
         <div className='relative rounded-lg hover:shadow-sm transition-shadow bg-white flex items-center h-full'>
             <div className='w-full'>
                 {/* Main Flight Info */}
-                <div className="flex items-start justify-between p-6">
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between p-4 md:p-6 gap-6">
                     {/* Airline Info */}
                     <div className="flex items-center gap-3">
-                        <div className="w-6 h-6 bg-gray-100 rounded-lg flex items-center justify-center">
-                            <span className="text-red-600 font-bold text-lg">{airline.substring(0, 2).toUpperCase()}</span>
+                        <div className="w-8 h-8 md:w-10 md:h-10 bg-gray-100 rounded-lg flex items-center justify-center shrink-0">
+                            <span className="text-red-600 font-bold text-sm md:text-lg">{airline.substring(0, 2).toUpperCase()}</span>
                         </div>
                         <div>
-                            <h3 className="font-semibold text-[#1D2433] text-xl">{airline}</h3>
+                            <h3 className="font-semibold text-[#1D2433] text-lg md:text-xl">{airline}</h3>
                             <div className="flex items-center gap-2 mt-1">
-                                <span className="text-[#676E7E]">{flightNumber}</span>
-                                <Badge variant="secondary" className="bg-[#0A369D] font-medium text-white text-xs px-2 py-1 rounded">
+                                <span className="text-[#676E7E] text-sm">{flightNumber}</span>
+                                <Badge variant="secondary" className="bg-[#0A369D] font-medium text-white text-[10px] md:text-xs px-2 py-0.5 md:py-1 rounded">
                                     {airline === 'American Airlines' ? 'First Class' : 'Economy'}
                                 </Badge>
                             </div>
@@ -77,12 +77,11 @@ export default function FlightCard({
                     </div>
 
                     {/* Flight Route and Timeline */}
-                    <div className="flex items-center justify-between gap-10">
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-6 md:gap-10 flex-1 w-full lg:max-w-xl">
                         {/* Departure */}
-
-                        <div className='flex flex-col gap-0.5 items-end'>
-                            <p className="text-2xl font-semibold text-[#101828]">{departureTime}</p>
-                            <p className="text-sm text-[#676E7E]">{departureDate}</p>
+                        <div className='flex flex-row md:flex-col gap-2 md:gap-0.5 items-center md:items-end w-full sm:w-auto justify-between sm:justify-start'>
+                            <p className="text-xl md:text-2xl font-semibold text-[#101828] order-2 md:order-1">{departureTime}</p>
+                            <p className="text-sm text-[#676E7E] order-1 md:order-2">{departureDate}</p>
                         </div>
 
                         {/* Duration and Flight Path */}
@@ -90,40 +89,38 @@ export default function FlightCard({
                             <div className="text-center flex items-center justify-between gap-4">
                                 <HugeiconsIcon
                                     icon={AirplaneTakeOff01Icon}
-                                    size={20}
+                                    size={18}
                                     className="text-[#475367]"
                                     strokeWidth={2}
                                 />
-                                <p className="font-medium text-[#676E7E]">Duration: {duration}</p>
+                                <p className="font-medium text-[#676E7E] text-xs md:text-sm">Duration: {duration}</p>
                                 <HugeiconsIcon
                                     icon={AirplaneLanding01Icon}
-                                    size={20}
+                                    size={18}
                                     className="text-[#475367]"
                                     strokeWidth={2}
                                 />
                             </div>
-                            <div className="relative w-full h-2 rounded-full bg-[#E7F0FF] flex justify-center items-center">
+                            <div className="relative w-full h-1.5 md:h-2 rounded-full bg-[#E7F0FF] flex justify-center items-center">
                                 <div className="h-full w-[40%] bg-[#0D6EFD] rounded-full"></div>
-
                             </div>
-                            <div className="flex justify-between items-center whitespace-nowrap">
+                            <div className="flex justify-between items-center whitespace-nowrap text-sm md:text-base">
                                 <span className="font-semibold text-[#1D2433]">{departureAirport}</span>
-                                <p className="font-medium text-[#676E7E] mx-4">{flightType}</p>
+                                <p className="font-medium text-[#676E7E] mx-2 md:mx-4">{flightType}</p>
                                 <span className="font-semibold text-[#1D2433]">{arrivalAirport}</span>
                             </div>
                         </div>
 
                         {/* Arrival */}
-
-                        <div className='flex flex-col gap-0.5 items-end'>
-                            <p className="text-2xl font-semibold text-[#101828]">{arrivalTime}</p>
-                            <p className="text-sm text-[#676E7E]">{arrivalDate}</p>
+                        <div className='flex flex-row md:flex-col gap-2 md:gap-0.5 items-center md:items-end w-full sm:w-auto justify-between sm:justify-start'>
+                            <p className="text-xl md:text-2xl font-semibold text-[#101828] order-2 md:order-1">{arrivalTime}</p>
+                            <p className="text-sm text-[#676E7E] order-1 md:order-2">{arrivalDate}</p>
                         </div>
                     </div>
 
                     {/* Price */}
-                    <div className="text-right">
-                        <p className="text-2xl font-bold text-[#1D2433]">{price}</p>
+                    <div className="w-full lg:w-auto text-left lg:text-right border-t border-dashed lg:border-0 pt-4 lg:pt-0">
+                        <p className="text-xl md:text-2xl font-bold text-[#1D2433]">{price}</p>
                     </div>
                 </div>
 

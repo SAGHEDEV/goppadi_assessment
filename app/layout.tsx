@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import TopNav from "@/components/TopNav";
 import SideNav from "@/components/SideNav";
+import { Toaster } from "@/components/ui/toaster";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -27,12 +28,15 @@ export default function RootLayout({
         className={`${poppins.variable} antialiased font-sans min-h-screen`}
       >
         <TopNav />
-        <main className="px-10 py-5 flex gap-12 items-start">
-          <SideNav />
-          <div className="flex-1">
+        <main className="px-4 md:px-10 py-5 flex flex-col md:flex-row gap-6 md:gap-12 items-start">
+          <div className="hidden md:block">
+            <SideNav />
+          </div>
+          <div className="flex-1 w-full">
             {children}
           </div>
         </main>
+        <Toaster />
       </body>
     </html>
   );

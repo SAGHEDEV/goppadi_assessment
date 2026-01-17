@@ -16,7 +16,7 @@ function FlightLists({ onAddFlight }: { onAddFlight?: () => void }) {
     };
 
     return (
-        <div className='py-4 pb-12 px-6 rounded-lg bg-[#F0F2F5] flex flex-col gap-6'>
+        <div className='py-4 pb-12 px-4 md:px-6 rounded-lg bg-[#F0F2F5] flex flex-col gap-6'>
             <div className='flex justify-between items-center'>
                 <p className='flex gap-2.5 items-center'>
                     <HugeiconsIcon

@@ -16,6 +16,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import axiosInstance from '@/lib/axios';
 import { useActivityStore } from '@/lib/store/useActivityStore';
+import { useToast } from '@/hooks/use-toast';
+import EmptyState from '../EmptyState';
 import Image from 'next/image';
 
 interface ActivityDrawerProps {
@@ -24,6 +26,7 @@ interface ActivityDrawerProps {
 }
 
 export default function ActivityDrawer({ isOpen, onClose }: ActivityDrawerProps) {
+    const { toast } = useToast();
     const addActivity = useActivityStore((state) => state.addActivity);
     const [isLoading, setIsLoading] = useState(false);
     const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -54,7 +57,11 @@ export default function ActivityDrawer({ isOpen, onClose }: ActivityDrawerProps)
             const destId = locationRes.data.data?.[0]?.dest_id;
 
             if (!destId) {
-                alert('Location not found.');
+                toast({
+                    title: "Not Found",
+                    description: "Location not found. Please try another city.",
+                    variant: "destructive"
+                });
                 return;
             }
 
@@ -68,11 +75,15 @@ export default function ActivityDrawer({ isOpen, onClose }: ActivityDrawerProps)
                 }
             });
 
-            setSearchResults(response.data.data.products || []);
+            setSearchResults(response?.data?.data?.products || []);
             setStep('results');
         } catch (error) {
             console.error('Error searching activities:', error);
-            alert('Failed to search activities. Please check your API key and parameters.');
+            toast({
+                title: "Error",
+                description: "Failed to search activities. Please check your API key and parameters.",
+                variant: "destructive"
+            });
         } finally {
             setIsLoading(false);
         }
@@ -183,41 +194,51 @@ export default function ActivityDrawer({ isOpen, onClose }: ActivityDrawerProps)
                                 <HugeiconsIcon icon={ArrowRight02Icon} size={16} className="rotate-180" />
                                 Back to search
                             </button>
-                            {searchResults.map((product) => (
-                                <div
-                                    key={product.id}
-                                    className="p-4 border border-[#E4E7EC] rounded-xl hover:border-[#0D6EFD] transition-colors cursor-pointer group flex gap-4"
-                                    onClick={() => handleSelectActivity(product)}
-                                >
-                                    <div className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden shrink-0">
-                                        {product.primaryPhoto?.small ? (
-                                            <Image
-                                                src={product.primaryPhoto.small}
-                                                alt={product.name}
-                                                width={80}
-                                                height={80}
-                                                className="w-full h-full object-cover"
-                                            />
-                                        ) : (
-                                            <div className="w-full h-full flex items-center justify-center text-gray-400">
-                                                <HugeiconsIcon icon={Location01Icon} size={24} />
+                            {searchResults.length === 0 ? (
+                                <EmptyState
+                                    icon='/assets/empty-activity.svg'
+                                    message="No activity was found"
+                                    buttonText="Search again"
+                                    onButtonClick={() => setStep('form')}
+                                    iconSize={120}
+                                />
+                            ) : (
+                                searchResults.map((product) => (
+                                    <div
+                                        key={product.id}
+                                        className="p-4 border border-[#E4E7EC] rounded-xl hover:border-[#0D6EFD] transition-colors cursor-pointer group flex gap-4"
+                                        onClick={() => handleSelectActivity(product)}
+                                    >
+                                        <div className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden shrink-0">
+                                            {product.primaryPhoto?.small ? (
+                                                <Image
+                                                    src={product.primaryPhoto.small}
+                                                    alt={product.name}
+                                                    width={80}
+                                                    height={80}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            ) : (
+                                                <div className="w-full h-full flex items-center justify-center text-gray-400">
+                                                    <HugeiconsIcon icon={Location01Icon} size={24} />
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <h4 className="font-semibold text-[#1D2433] truncate">{product.name}</h4>
+                                            <div className="flex items-center gap-1 mt-1 text-xs text-[#647995]">
+                                                <HugeiconsIcon icon={StarIcon} size={12} className="text-[#F59E0B]" />
+                                                <span>{product.reviewsStats?.combinedNumericStats?.average?.toFixed(1) || "4.5"}</span>
+                                                <span>({product.reviewsStats?.combinedNumericStats?.totalCount || "0"})</span>
                                             </div>
-                                        )}
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <h4 className="font-semibold text-[#1D2433] truncate">{product.name}</h4>
-                                        <div className="flex items-center gap-1 mt-1 text-xs text-[#647995]">
-                                            <HugeiconsIcon icon={StarIcon} size={12} className="text-[#F59E0B]" />
-                                            <span>{product.reviewsStats?.combinedNumericStats?.average?.toFixed(1) || "4.5"}</span>
-                                            <span>({product.reviewsStats?.combinedNumericStats?.totalCount || "0"})</span>
-                                        </div>
-                                        <div className="mt-2 flex justify-between items-baseline">
-                                            <span className="text-xs text-[#647995]">{product.typicalDuration || "2 Hours"}</span>
-                                            <span className="font-bold text-[#0D6EFD]">₦ {product.price?.price?.value?.toLocaleString() || "12,500"}</span>
+                                            <div className="mt-2 flex justify-between items-baseline">
+                                                <span className="text-xs text-[#647995]">{product.typicalDuration || "2 Hours"}</span>
+                                                <span className="font-bold text-[#0D6EFD]">₦ {product.price?.price?.value?.toLocaleString() || "12,500"}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))
+                            )}
                         </div>
                     )}
                 </div>

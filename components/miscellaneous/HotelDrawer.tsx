@@ -17,6 +17,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import axiosInstance from '@/lib/axios';
 import { useHotelStore } from '@/lib/store/useHotelStore';
+import { useToast } from '@/hooks/use-toast';
+import EmptyState from '../EmptyState';
 import Image from 'next/image';
 
 interface HotelDrawerProps {
@@ -25,6 +27,7 @@ interface HotelDrawerProps {
 }
 
 export default function HotelDrawer({ isOpen, onClose }: HotelDrawerProps) {
+    const { toast } = useToast();
     const addHotel = useHotelStore((state) => state.addHotel);
     const [isLoading, setIsLoading] = useState(false);
     const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -58,7 +61,11 @@ export default function HotelDrawer({ isOpen, onClose }: HotelDrawerProps) {
             const destId = locationRes.data.data?.[0]?.dest_id;
 
             if (!destId) {
-                alert('Location not found.');
+                toast({
+                    title: "Not Found",
+                    description: "Location not found. Please try another city.",
+                    variant: "destructive"
+                });
                 return;
             }
 
@@ -78,11 +85,15 @@ export default function HotelDrawer({ isOpen, onClose }: HotelDrawerProps) {
                 }
             });
 
-            setSearchResults(response.data.data.hotels || []);
+            setSearchResults(response?.data?.data?.hotels || []);
             setStep('results');
         } catch (error) {
             console.error('Error searching hotels:', error);
-            alert('Failed to search hotels. Please check your API key and parameters.');
+            toast({
+                title: "Error",
+                description: "Failed to search hotels. Please check your API key and parameters.",
+                variant: "destructive"
+            });
         } finally {
             setIsLoading(false);
         }
@@ -252,41 +263,51 @@ export default function HotelDrawer({ isOpen, onClose }: HotelDrawerProps) {
                                 <HugeiconsIcon icon={ArrowRight02Icon} size={16} className="rotate-180" />
                                 Back to search
                             </button>
-                            {searchResults.map((hotel) => (
-                                <div
-                                    key={hotel.hotel_id}
-                                    className="p-4 border border-[#E4E7EC] rounded-xl hover:border-[#0D6EFD] transition-colors cursor-pointer group flex gap-4"
-                                    onClick={() => handleSelectHotel(hotel)}
-                                >
-                                    <div className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden shrink-0">
-                                        {hotel.main_photo_url ? (
-                                            <Image
-                                                src={hotel.main_photo_url}
-                                                alt={hotel.hotel_name}
-                                                width={80}
-                                                height={80}
-                                                className="w-full h-full object-cover"
-                                            />
-                                        ) : (
-                                            <div className="w-full h-full flex items-center justify-center text-gray-400">
-                                                <HugeiconsIcon icon={Location01Icon} size={24} />
+                            {searchResults.length === 0 ? (
+                                <EmptyState
+                                    icon='/assets/empty-hotel.svg'
+                                    message="No hotel was found"
+                                    buttonText="Search again"
+                                    onButtonClick={() => setStep('form')}
+                                    iconSize={120}
+                                />
+                            ) : (
+                                searchResults.map((hotel) => (
+                                    <div
+                                        key={hotel.hotel_id}
+                                        className="p-4 border border-[#E4E7EC] rounded-xl hover:border-[#0D6EFD] transition-colors cursor-pointer group flex gap-4"
+                                        onClick={() => handleSelectHotel(hotel)}
+                                    >
+                                        <div className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden shrink-0">
+                                            {hotel.main_photo_url ? (
+                                                <Image
+                                                    src={hotel.main_photo_url}
+                                                    alt={hotel.hotel_name}
+                                                    width={80}
+                                                    height={80}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            ) : (
+                                                <div className="w-full h-full flex items-center justify-center text-gray-400">
+                                                    <HugeiconsIcon icon={Location01Icon} size={24} />
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <h4 className="font-semibold text-[#1D2433] truncate">{hotel.hotel_name}</h4>
+                                            <div className="flex items-center gap-1 mt-1 text-xs text-[#647995]">
+                                                <HugeiconsIcon icon={StarIcon} size={12} className="text-[#F59E0B]" />
+                                                <span>{hotel.review_score?.toFixed(1) || "8.0"}</span>
+                                                <span>({hotel.review_nr || "0"})</span>
                                             </div>
-                                        )}
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <h4 className="font-semibold text-[#1D2433] truncate">{hotel.hotel_name}</h4>
-                                        <div className="flex items-center gap-1 mt-1 text-xs text-[#647995]">
-                                            <HugeiconsIcon icon={StarIcon} size={12} className="text-[#F59E0B]" />
-                                            <span>{hotel.review_score?.toFixed(1) || "8.0"}</span>
-                                            <span>({hotel.review_nr || "0"})</span>
-                                        </div>
-                                        <div className="mt-2 text-right">
-                                            <span className="font-bold text-[#0D6EFD]">₦ {(hotel.price_breakdown?.all_inclusive_price || 120000).toLocaleString()}</span>
-                                            <p className="text-[10px] text-[#647995]">Total Price</p>
+                                            <div className="mt-2 text-right">
+                                                <span className="font-bold text-[#0D6EFD]">₦ {(hotel.price_breakdown?.all_inclusive_price || 120000).toLocaleString()}</span>
+                                                <p className="text-[10px] text-[#647995]">Total Price</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))
+                            )}
                         </div>
                     )}
                 </div>

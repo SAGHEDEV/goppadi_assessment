@@ -12,7 +12,7 @@ function ActivitiesLists({ onAddActivity }: { onAddActivity?: () => void }) {
     const { activities, removeActivity } = useActivityStore();
 
     return (
-        <div className='py-4 pb-12 px-6 rounded-lg bg-[#0054E4] flex flex-col gap-6'>
+        <div className='py-4 pb-12 px-4 md:px-6 rounded-lg bg-[#0054E4] flex flex-col gap-6'>
             <div className='flex justify-between items-center'>
                 <p className='flex gap-2.5 items-center text-white'>
                     <HugeiconsIcon
@@ -32,7 +32,7 @@ function ActivitiesLists({ onAddActivity }: { onAddActivity?: () => void }) {
             </div>
             <div className='flex flex-col gap-6'>
                 {activities.length === 0 ? (
-                    <EmptyState icon='/empty-activity.svg' buttonText='Add Activity' onButtonClick={onAddActivity} iconSize={72}/>
+                    <EmptyState icon='/empty-activity.svg' buttonText='Add Activity' onButtonClick={onAddActivity} iconSize={72} />
                 ) : (
                     activities.map((activity) => (
                         <ActivityCard

@@ -15,7 +15,7 @@ export default function Home() {
   const [isHotelOpen, setIsHotelOpen] = useState(false);
 
   return (
-    <div className="p-8 rounded-lg bg-white relative">
+    <div className="px-4 py-6 md:p-8 rounded-lg bg-white relative">
       <TripDetails
         onAddFlight={() => setIsBookingOpen(true)}
         onAddActivity={() => setIsActivityOpen(true)}

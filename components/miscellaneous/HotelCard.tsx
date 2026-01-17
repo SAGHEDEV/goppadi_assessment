@@ -77,20 +77,20 @@ export default function HotelCard({
     };
 
     return (
-        <div className="relative overflow-hidden rounded-lg hover:shadow-lg transition-shadow bg-white flex">
-            <div className="flex w-full py-6 pl-4">
+        <div className="relative overflow-hidden rounded-lg hover:shadow-lg transition-shadow bg-white flex flex-col md:flex-row">
+            <div className="flex flex-col md:flex-row w-full py-4 md:py-6 pl-4 pr-11 md:pr-0">
                 {/* Image Carousel Section */}
-                <div className="relative w-58 h-56 shrink-0 bg-white rounded-lg overflow-hidden">
-                    <Carousel className="w-full h-auto">
-                        <CarouselContent>
+                <div className="relative w-full md:w-58 h-48 md:h-56 shrink-0 bg-white rounded-lg overflow-hidden mb-4 md:mb-0">
+                    <Carousel className="w-full h-full">
+                        <CarouselContent className="h-full">
                             {images.map((image, index) => (
-                                <CarouselItem key={index}>
-                                    {!image ? <div className="relative h-58 w-full bg-linear-to-br from-blue-400 to-green-400">
-                                        <div className="absolute inset-0 flex items-center justify-center text-white text-sm">
+                                <CarouselItem key={index} className="h-full">
+                                    {!image ? <div className="relative h-48 md:h-58 w-full bg-linear-to-br from-blue-400 to-green-400">
+                                        <div className="absolute inset-0 flex items-center justify-center text-white text-xs md:text-sm">
                                             Hotel Image {index + 1}
                                         </div>
                                     </div> :
-                                        <Image src={image} alt={`${name} - ${index + 1}`} className="w-full h-58 object-cover" width={400} height={400} />}
+                                        <Image src={image} alt={`${name} - ${index + 1}`} className="w-full h-full object-cover" width={400} height={400} />}
                                 </CarouselItem>
                             ))}
                         </CarouselContent>
@@ -112,20 +112,20 @@ export default function HotelCard({
                 </div>
 
                 <div className='flex flex-col w-full'>
-                    <div className='flex justify-between w-full px-4 pb-4.5 pr-11'>
+                    <div className='flex justify-between w-full px-0 md:px-4 pb-4.5 pr-0 md:pr-11'>
                         {/* Hotel Details Section */}
                         <div className="flex-1">
                             {/* Hotel Name and Address */}
-                            <div className='flex justify-between'>
+                            <div className='flex flex-col xl:flex-row justify-between gap-4'>
                                 <div className="flex flex-col gap-2">
-                                    <div className='flex flex-col gap-0.5 max-w-111.25'>
-                                        <h3 className="text-xl font-bold text-black">{name}</h3>
-                                        <p className="font-medium text-[#1D2433]">{address}</p>
+                                    <div className='flex flex-col gap-0.5 max-w-full xl:max-w-111.25'>
+                                        <h3 className="text-lg md:text-xl font-bold text-black">{name}</h3>
+                                        <p className="text-sm md:font-medium text-[#1D2433]">{address}</p>
                                     </div>
 
                                     {/* Rating and Room Type */}
-                                    <div className="flex items-center gap-4 flex-wrap">
-                                        <button className="flex items-center gap-1 text-[#0D6EFD] hover:underline">
+                                    <div className="flex items-center gap-3 md:gap-4 flex-wrap">
+                                        <button className="flex items-center gap-1 text-[#0D6EFD] hover:underline text-sm md:text-base">
                                             <HugeiconsIcon
                                                 icon={Location01Icon}
                                                 size={14}
@@ -134,7 +134,7 @@ export default function HotelCard({
                                             <span className='font-medium'>Show in map</span>
                                         </button>
 
-                                        <div className="flex items-center gap-2">
+                                        <div className="flex items-center gap-2 text-sm md:text-base">
                                             <div className="flex items-center gap-1 rounded font-medium">
                                                 <HugeiconsIcon
                                                     icon={StarIcon}
@@ -147,7 +147,7 @@ export default function HotelCard({
                                             </div>
                                         </div>
 
-                                        <div className="flex items-center gap-1 font-medium text-[#676E7E]">
+                                        <div className="flex items-center gap-1 font-medium text-[#676E7E] text-sm md:text-base">
                                             <HugeiconsIcon
                                                 icon={BedIcon}
                                                 size={14}
@@ -157,25 +157,25 @@ export default function HotelCard({
                                         </div>
                                     </div>
                                 </div>
-                                <div className="text-right flex flex-col gap-1">
-                                    <p className="text-[28px] font-semibold text-[#1D2433]">{totalPrice}</p>
-                                    <p className="font-medium text-[#1D2433]">Total Price: {pricePerNight}</p>
-                                    <p className="font-medium text-[#1D2433]">{rooms} room x {nights} nights incl. taxes</p>
+                                <div className="text-left xl:text-right flex flex-col gap-1 border-t border-dashed xl:border-0 pt-4 xl:pt-0">
+                                    <p className="text-2xl md:text-[28px] font-semibold text-[#1D2433]">{totalPrice}</p>
+                                    <p className="text-sm md:font-medium text-[#1D2433]">Total Price: {pricePerNight}</p>
+                                    <p className="text-xs md:font-medium text-[#676E7E]">{rooms} room x {nights} nights incl. taxes</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="w-full border-t border-[#E4E7EC] flex items-center justify-between p-4 pr-11">
+                    <div className="w-full border-t border-[#E4E7EC] flex flex-col lg:flex-row lg:items-center justify-between p-4 pr-0 md:pr-11 gap-4">
                         {/* Facilities */}
-                        <div className="flex items-center gap-3 text-lg">
+                        <div className="flex items-center gap-3 text-sm md:text-lg overflow-x-auto whitespace-nowrap">
                             <span className="font-medium text-[#647995]">Facilities:</span>
                             <div className="flex items-center gap-3">
                                 {facilities.map((facility, index) => (
-                                    <div key={index} className="flex items-center gap-1 text-[##647995]">
+                                    <div key={index} className="flex items-center gap-1 text-[#647995]">
                                         <HugeiconsIcon
                                             icon={getFacilityIcon(facility.icon)}
-                                            size={24}
+                                            size={20}
                                             color='#475367'
                                             strokeWidth={2}
                                         />
@@ -184,8 +184,8 @@ export default function HotelCard({
                                 ))}
                             </div>
                         </div>
-                        <div className="flex items-center gap-6">
-                            <div className="flex items-center gap-2 text-lg font-medium text-[#647995]">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-3 md:gap-6">
+                            <div className="flex items-center gap-2 text-sm md:text-lg font-medium text-[#647995]">
                                 <HugeiconsIcon
                                     icon={Calendar03Icon}
                                     size={16}
@@ -193,7 +193,7 @@ export default function HotelCard({
                                 />
                                 <span>Check In: {checkIn}</span>
                             </div>
-                            <div className="flex items-center gap-2 text-lg font-medium text-[#647995]">
+                            <div className="flex items-center gap-2 text-sm md:text-lg font-medium text-[#647995]">
                                 <HugeiconsIcon
                                     icon={Calendar03Icon}
                                     size={16}
@@ -205,16 +205,16 @@ export default function HotelCard({
                     </div>
 
                     {/* Action Links */}
-                    <div className="flex items-center justify-between p-4 pb-0 pr-12 border-t border-[#E4E7EC]">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 pb-0 pr-0 md:pr-12 border-t border-[#E4E7EC] gap-4">
                         <div className="flex items-center gap-4">
-                            <button className="text-lg cursor-pointer font-medium text-[#0D6EFD] hover:underline">
+                            <button className="text-sm md:text-lg cursor-pointer font-medium text-[#0D6EFD] hover:underline">
                                 Hotel details
                             </button>
-                            <button className="text-lg cursor-pointer font-medium text-[#0D6EFD] hover:underline">
+                            <button className="text-sm md:text-lg cursor-pointer font-medium text-[#0D6EFD] hover:underline">
                                 Price details
                             </button>
                         </div>
-                        <button className="text-lg cursor-pointer font-medium text-[#0D6EFD] hover:underline">
+                        <button className="text-sm md:text-lg cursor-pointer font-medium text-[#0D6EFD] hover:underline text-left sm:text-right">
                             Edit details
                         </button>
                     </div>

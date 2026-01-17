@@ -52,16 +52,16 @@ export default function ActivityCard({
     onDelete
 }: ActivityCardProps) {
     return (
-        <div className="relative overflow-hidden rounded-lg hover:shadow-lg transition-shadow bg-white flex">
-            <div className="flex w-full py-6 pl-4">
+        <div className="relative overflow-hidden rounded-lg hover:shadow-lg transition-shadow bg-white flex flex-col md:flex-row">
+            <div className="flex flex-col md:flex-row w-full py-4 md:py-6 pl-4 pr-11 md:pr-0">
                 {/* Image Carousel Section */}
-                <div className="relative w-61 h-61 shrink-0 bg-white rounded-lg overflow-hidden">
-                    <Carousel className="w-full h-auto">
-                        <CarouselContent>
+                <div className="relative w-full md:w-61 h-48 md:h-61 shrink-0 bg-white rounded-lg overflow-hidden mb-4 md:mb-0">
+                    <Carousel className="w-full h-full">
+                        <CarouselContent className="h-full">
                             {images.map((image, index) => (
-                                <CarouselItem key={index}>
+                                <CarouselItem key={index} className="h-full">
                                     {!image ? (
-                                        <div className="relative h-61 w-full bg-linear-to-br from-gray-800 to-gray-900">
+                                        <div className="relative h-48 md:h-61 w-full bg-linear-to-br from-gray-800 to-gray-900">
                                             <div className="absolute inset-0 flex items-center justify-center">
                                                 <div className="text-center">
                                                     <div className="text-white text-xs mb-2">🎨</div>
@@ -70,7 +70,7 @@ export default function ActivityCard({
                                             </div>
                                         </div>
                                     ) : (
-                                        <Image src={image} alt={`${name} - ${index + 1}`} className="w-full h-61 object-cover" width={400} height={400} />
+                                        <Image src={image} alt={`${name} - ${index + 1}`} className="w-full h-full object-cover" width={400} height={400} />
                                     )}
                                 </CarouselItem>
                             ))}
@@ -93,20 +93,20 @@ export default function ActivityCard({
                 </div>
 
                 <div className='flex flex-col w-full'>
-                    <div className='flex justify-between w-full px-4 pb-4.5 pr-11'>
+                    <div className='flex justify-between w-full px-0 md:px-4 pb-4.5 pr-0 md:pr-11'>
                         {/* Activity Details Section */}
                         <div className="flex-1">
                             {/* Activity Name and Description */}
-                            <div className='flex justify-between'>
+                            <div className='flex flex-col xl:flex-row justify-between gap-4'>
                                 <div className="flex flex-col gap-2">
-                                    <div className='flex flex-col gap-0.5 max-w-111.25'>
-                                        <h3 className="text-xl font-bold text-black">{name}</h3>
-                                        <p className="font-medium text-[#1D2433]">{description}</p>
+                                    <div className='flex flex-col gap-0.5 max-w-full xl:max-w-111.25'>
+                                        <h3 className="text-lg md:text-xl font-bold text-black">{name}</h3>
+                                        <p className="text-sm md:font-medium text-[#1D2433]">{description}</p>
                                     </div>
 
                                     {/* Rating, Duration, and Directions */}
-                                    <div className="flex items-center gap-4 flex-wrap">
-                                        <button className="flex items-center gap-1 text-[#0D6EFD] hover:underline">
+                                    <div className="flex items-center gap-3 md:gap-4 flex-wrap">
+                                        <button className="flex items-center gap-1 text-[#0D6EFD] hover:underline text-sm md:text-base">
                                             <HugeiconsIcon
                                                 icon={Location01Icon}
                                                 size={14}
@@ -115,7 +115,7 @@ export default function ActivityCard({
                                             <span className='font-medium'>Directions</span>
                                         </button>
 
-                                        <div className="flex items-center gap-2">
+                                        <div className="flex items-center gap-2 text-sm md:text-base">
                                             <div className="flex items-center gap-1 rounded font-medium">
                                                 <HugeiconsIcon
                                                     icon={StarIcon}
@@ -128,7 +128,7 @@ export default function ActivityCard({
                                             </div>
                                         </div>
 
-                                        <div className="flex items-center gap-1 font-medium text-[#676E7E]">
+                                        <div className="flex items-center gap-1 font-medium text-[#676E7E] text-sm md:text-base">
                                             <HugeiconsIcon
                                                 icon={Clock01Icon}
                                                 size={14}
@@ -138,46 +138,46 @@ export default function ActivityCard({
                                         </div>
                                     </div>
                                 </div>
-                                <div className="text-right flex flex-col gap-1">
-                                    <p className="text-[28px] font-semibold text-[#1D2433]">{price}</p>
-                                    <p className="font-medium text-[#1D2433]">{dateTime}</p>
+                                <div className="text-left xl:text-right flex flex-col gap-1 border-t border-dashed xl:border-0 pt-4 xl:pt-0">
+                                    <p className="text-2xl md:text-[28px] font-semibold text-[#1D2433]">{price}</p>
+                                    <p className="text-sm md:font-medium text-[#1D2433]">{dateTime}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="w-full border-t border-[#E4E7EC] flex items-center justify-between p-4 pr-11">
+                    <div className="w-full border-t border-[#E4E7EC] flex flex-col lg:flex-row lg:items-center justify-between p-4 pr-0 md:pr-11 gap-4">
                         {/* What's Included */}
-                        <div className="flex items-center gap-3 text-lg">
+                        <div className="flex items-center gap-3 text-sm md:text-lg overflow-x-auto whitespace-nowrap">
                             <span className="font-medium text-[#647995]">What&apos;s Included:</span>
                             <div className="flex items-center gap-2">
-                                <span className="text-[#647995]">{whatsIncluded}</span>
+                                <span className="text-[#647995] text-sm md:text-base">{whatsIncluded}</span>
                                 {seeMoreLink && (
-                                    <button className="text-[#0D6EFD] hover:underline font-medium">
+                                    <button className="text-[#0D6EFD] hover:underline font-medium text-sm md:text-base">
                                         See more
                                     </button>
                                 )}
                             </div>
                         </div>
 
-                        <div className="flex justify-end mt-2">
-                            <Badge className="bg-[#0D6EFD] hover:bg-[#0b5ed7] text-white px-3 py-1 rounded-lg text-sm font-medium">
+                        <div className="flex justify-start lg:justify-end">
+                            <Badge className="bg-[#0D6EFD] hover:bg-[#0b5ed7] text-white px-3 py-1 rounded-lg text-xs md:text-sm font-medium">
                                 Day {day}
                             </Badge>
                         </div>
                     </div>
 
                     {/* Action Links */}
-                    <div className="flex items-center justify-between p-4 pb-0 pr-12 border-t border-[#E4E7EC]">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 pb-0 pr-0 md:pr-12 border-t border-[#E4E7EC] gap-4">
                         <div className="flex items-center gap-4">
-                            <button className="text-lg cursor-pointer font-medium text-[#0D6EFD] hover:underline">
+                            <button className="text-sm md:text-lg cursor-pointer font-medium text-[#0D6EFD] hover:underline">
                                 Activity details
                             </button>
-                            <button className="text-lg cursor-pointer font-medium text-[#0D6EFD] hover:underline">
+                            <button className="text-sm md:text-lg cursor-pointer font-medium text-[#0D6EFD] hover:underline">
                                 Price details
                             </button>
                         </div>
-                        <button className="text-lg cursor-pointer font-medium text-[#0D6EFD] hover:underline">
+                        <button className="text-sm md:text-lg cursor-pointer font-medium text-[#0D6EFD] hover:underline text-left sm:text-right">
                             Edit details
                         </button>
                     </div>

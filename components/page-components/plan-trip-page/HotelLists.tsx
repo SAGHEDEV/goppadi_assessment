@@ -12,7 +12,7 @@ function HotelLists({ onAddHotel }: { onAddHotel?: () => void }) {
     const { hotels, removeHotel } = useHotelStore();
 
     return (
-        <div className='py-4 pb-12 px-6 rounded-lg bg-[#344054] flex flex-col gap-6'>
+        <div className='py-4 pb-12 px-4 md:px-6 rounded-lg bg-[#344054] flex flex-col gap-6'>
             <div className='flex justify-between items-center'>
                 <p className='flex gap-2.5 items-center text-white'>
                     <HugeiconsIcon
@@ -33,7 +33,7 @@ function HotelLists({ onAddHotel }: { onAddHotel?: () => void }) {
             <div className='flex flex-col gap-6'>
                 {hotels.length === 0 ? (
                     <EmptyState
-                        icon='/empty-hotel'
+                        icon='/empty-hotel.svg'
                         buttonText='Add Hotel'
                         onButtonClick={onAddHotel}
                         iconSize={72}
