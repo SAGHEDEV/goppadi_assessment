@@ -50,7 +50,7 @@ export default function ActivityDrawer({ isOpen, onClose }: ActivityDrawerProps)
         setIsLoading(true);
         try {
             // First search for location ID
-            const locationRes = await axiosInstance.get('/attractions/searchLocation', {
+            const locationRes = await axiosInstance.get('/attraction/searchLocation', {
                 params: { query: formData.location }
             });
 
@@ -66,7 +66,7 @@ export default function ActivityDrawer({ isOpen, onClose }: ActivityDrawerProps)
             }
 
             // Then search for attractions using destId
-            const response = await axiosInstance.get('/attractions/searchAttractions', {
+            const response = await axiosInstance.get('/attraction/searchAttractions', {
                 params: {
                     id: destId,
                     sortBy: 'TRENDING_DESTINATIONS',
